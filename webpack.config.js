@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-var config = {
+let config = {
     entry: './main.js',
 
     output: {
@@ -18,7 +18,7 @@ var config = {
         port: 8080
     },
 
-    // devtool: "#source-map",
+    devtool: "#source-map",
 
     module: {
         loaders: [
@@ -61,6 +61,6 @@ var config = {
         new webpack.optimize.AggressiveMergingPlugin(),//Merge chunks
         new ExtractTextPlugin('bundle.css')
     ]
-}
+};
 
 module.exports = config;
