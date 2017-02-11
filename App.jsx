@@ -9,12 +9,8 @@ function getAppState(name) {
     if (localStorage.getItem(name))
         return JSON.parse(localStorage.getItem(name));
     else
-        return petslist;
+        return name == 'pets' ? [] : [{'name':'Название', 'id':1}];
 }
-
-let petslist = [
-    ];
-
 class App extends React.Component {
     constructor(props) {
         super(props);
