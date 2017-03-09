@@ -20,8 +20,39 @@ class App extends React.Component {
         };
 
         this.saveFood = this.saveFood.bind(this);
+        this.loadData = this.loadData.bind(this);
+        this.saveAppData = this.saveAppData.bind(this)
     }
 
+    loadData() {
+        let url = "https://morning-anchorage-48598.herokuapp.com/";
+        fetch(url + 'getData').then((response) => response.json()).then((data) => {
+            console.log(data);
+            this.setState({
+                pets:JSON.parse(data[0].pets),
+                foods:JSON.parse(data[0].foods)
+            });
+        })
+    }
+
+    saveAppData(e) {
+        var sendData = function (url, data) {
+            let xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+            xmlhttp.open("POST", url);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(JSON.stringify(data));
+        }
+        sendData("https://morning-anchorage-48598.herokuapp.com/saveData",{
+            foods:JSON.stringify(this.state.foods),
+            pets:JSON.stringify(this.state.pets)
+        });
+
+    }
+    componentDidMount() {
+        this.loadData();
+        window.addEventListener('beforeunload', this.saveAppData);
+
+    }
     /** add new element to table (row or col)
      *
      * @param name
@@ -78,6 +109,9 @@ class App extends React.Component {
                         titleText="Новая еда..."
                         myClickEvent={this.addElementToTable.bind(this)}
                     />
+                    <button className="btn btn-primary" onClick={this.loadData}>Load</button>
+                    <button className="btn btn-primary" onClick={this.saveAppData}>Save</button>
+
                 </div>
             </div>
         );
